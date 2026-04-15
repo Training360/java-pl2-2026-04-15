@@ -41,3 +41,15 @@ mvn archetype:generate -DgroupId=training -DartifactId=hello-maven -DarchetypeAr
 
 mvn package
 
+# Spring Boot config
+
+- Parancssori paraméter
+- Környezeti változó
+- `conf/application.properties` vagy `./application.properties`
+- jar fájlon belüli `application.properties` állomány
+
+# DB indítása
+
+```shell
+docker run -d -e POSTGRES_DB=employees -e POSTGRES_USER=employees -e POSTGRES_PASSWORD=employees -p 5432:5432 --name employees-postgres postgres
+```
