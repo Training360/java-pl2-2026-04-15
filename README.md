@@ -61,6 +61,23 @@ git pull
 docker run -d -e POSTGRES_DB=employees -e POSTGRES_USER=employees -e POSTGRES_PASSWORD=employees -p 5432:5432 --name employees-postgres postgres
 ```
 
+# Táblák törlése
+
+```shell
+docker exec -it employees-postgres  bash
+```
+
+```shell
+psql -U employees -d employees
+```
+
+```sql
+drop table databasechangelog;
+drop table databasechangeloglock;
+drop table employees;
+drop table log_entries;
+```
+
 # Jakarta EE
 
 `curl -o postgresql-42.7.10.jar https://repo.maven.apache.org/maven2/org/postgresql/postgresql/42.7.10/postgresql-42.7.10.jar`
@@ -93,4 +110,10 @@ http://localhost:15672/
 
 Felhasználónév/jelszó: `guest` / `guest`
 
+# Docker image készítése
+
+```shell
+mvn package
+docker build -t employees-app:0.0.1 .
+```
 
