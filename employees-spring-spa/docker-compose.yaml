@@ -1,0 +1,20 @@
+services:
+  employees-postgres:
+    image: postgres:18.3
+    environment:
+      - POSTGRES_DB=employees
+      - POSTGRES_USER=employees
+      - POSTGRES_PASSWORD=employees
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U employees"]
+      
+
+  employees-app:
+    image: employees-app:0.0.1
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://employees-postgres:5432/employees
+    depends_on:
+      employees-postgres:
+        condition: service_healthy
+    ports:
+      - 8081:8080
