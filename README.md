@@ -135,3 +135,29 @@ docker compose down
 ```shell
  docker compose -f docker-compose-ha.yaml  up -d
 ```
+
+# GitLab
+
+```shell
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://gitlab.com/vicziani/employees-spring-spa.git
+git push origin master
+```
+
+```shell
+git update-index --chmod=+x mvnw
+```
+
+registry.gitlab.com/vicziani/employees-spring-spa:1.0.0
+
+# Kubernetes
+
+```shell
+kind create cluster --name employees
+kind load docker-image employees-app:1.0.0 --name employees
+kubectl apply -f ./deployments
+kubectl port-forward svc/employees-app 8080:8080
+kind delete cluster --name employees
+```
