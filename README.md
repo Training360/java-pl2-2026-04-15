@@ -117,3 +117,21 @@ mvn package
 docker build -t employees-app:0.0.1 .
 ```
 
+# Compose
+
+```shell
+docker compose up -d
+docker compose down
+```
+
+# Alternatív Docker build
+
+```shell
+./mvnw spring-boot:build-image
+```
+
+# HA
+
+```shell
+ docker compose -f docker-compose-ha.yaml  up -d
+```

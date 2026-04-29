@@ -1,0 +1,36 @@
+services:
+  employees-postgres:
+    image: postgres:18.3
+    environment:
+      - POSTGRES_DB=employees
+      - POSTGRES_USER=employees
+      - POSTGRES_PASSWORD=employees
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U employees"]
+      
+
+  employees-app-1:
+    image: employees-app:0.0.1
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://employees-postgres:5432/employees
+    depends_on:
+      employees-postgres:
+        condition: service_healthy
+
+  employees-app-2:
+    image: employees-app:0.0.1
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://employees-postgres:5432/employees
+    depends_on:
+      employees-postgres:
+        condition: service_healthy
+
+  haproxy:
+    image: haproxy:3.3.6
+    ports:
+      - "8082:8080"
+    depends_on:
+      - employees-app-1
+      - employees-app-2
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
