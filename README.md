@@ -41,6 +41,13 @@ mvn archetype:generate -DgroupId=training -DartifactId=hello-maven -DarchetypeAr
 
 mvn package
 
+# Clone
+
+```shell
+git clone https://github.com/Training360/java-pl2-2026-04-15
+git pull
+```
+
 # Spring Boot config
 
 - Parancssori paraméter
@@ -53,3 +60,37 @@ mvn package
 ```shell
 docker run -d -e POSTGRES_DB=employees -e POSTGRES_USER=employees -e POSTGRES_PASSWORD=employees -p 5432:5432 --name employees-postgres postgres
 ```
+
+# Jakarta EE
+
+`curl -o postgresql-42.7.10.jar https://repo.maven.apache.org/maven2/org/postgresql/postgresql/42.7.10/postgresql-42.7.10.jar`
+
+```shell
+jboss-cli.bat
+```
+
+```
+# Kapcsolódás
+connect
+
+# Add PostgreSQL module
+module add --name=com.postgresql --resources=postgresql-42.7.10.jar --dependencies=javax.api,javax.transaction.api
+
+# Add PostgreSQL driver
+/subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=com.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
+
+# Create DataSource
+data-source add --name=EmployeeDS --jndi-name=java:/jdbc/EmployeeDS --driver-name=postgresql --connection-url=${env.DB_CONNECTION_URL:jdbc:postgresql://localhost:5432/employees} --user-name=${DB_USERNAME:employees} --password=${DB_PASSWORD:employees}
+```
+
+# RabbitMQ
+
+```shell
+docker run -d --hostname my-rabbit --name my-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:4.3.0-management
+```
+
+http://localhost:15672/
+
+Felhasználónév/jelszó: `guest` / `guest`
+
+
