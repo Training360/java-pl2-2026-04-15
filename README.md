@@ -152,6 +152,17 @@ git update-index --chmod=+x mvnw
 
 registry.gitlab.com/vicziani/employees-spring-spa:1.0.0
 
+# Observability
+
+```shell
+curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+set JAVA_TOOL_OPTIONS="-javaagent:opentelemetry-javaagent.jar" 
+set OTEL_TRACES_EXPORTER=otlp
+set OTEL_METRICS_EXPORTER=otlp
+set OTEL_LOGS_EXPORTER=otlp
+set OTEL_METRIC_EXPORT_INTERVAL=15000
+```
+
 # Kubernetes
 
 ```shell
