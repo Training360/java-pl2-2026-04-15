@@ -1,67 +1,75 @@
-# JDK telepítése Windowson
+# Java platform bemutatása üzemeltetőknek
+
+## JDK telepítése Windowson
 
 Oracle Disztribúció
 https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html
 
+```shell
 java -version
+```
 
 Windows csomagkezelő:
 
 https://chocolatey.org/
 
-# Linux
+## Linux
 
 SDKMan!
 
+```shell
 curl -s "https://get.sdkman.io" | bash
 
 source "/root/.sdkman/bin/sdkman-init.sh"
 
 sdk install java 25.0.2-tem
+```
 
 https://www.jtechlog.hu/2015/07/04/g1.html
 https://www.jtechlog.hu/2011/12/30/java-memoriakezeles-szemetgyujto.html
 
-# Fordítás, futtatás
+## Fordítás, futtatás
 
 ```
 javac Hello.java
 java Hello
 ```
 
-# Csomagolás
+## Csomagolás
 
 ```
 jar cvf hello.jar *.class
 ```
 
-# Maven
+## Maven
 
+```shell
 mvn archetype:generate -DgroupId=training -DartifactId=hello-maven -DarchetypeArtifactId=hello-maven -Dpackage=hello -DinteractiveMode=false
 
 mvn package
+```
 
-# Clone
+## Clone
 
 ```shell
 git clone https://github.com/Training360/java-pl2-2026-04-15
 git pull
 ```
 
-# Spring Boot config
+## Spring Boot config
 
 - Parancssori paraméter
 - Környezeti változó
 - `conf/application.properties` vagy `./application.properties`
 - jar fájlon belüli `application.properties` állomány
 
-# DB indítása
+## DB indítása
 
 ```shell
 docker run -d -e POSTGRES_DB=employees -e POSTGRES_USER=employees -e POSTGRES_PASSWORD=employees -p 5432:5432 --name employees-postgres postgres
 ```
 
-# Táblák törlése
+## Táblák törlése
 
 ```shell
 docker exec -it employees-postgres  bash
@@ -78,15 +86,17 @@ drop table employees;
 drop table log_entries;
 ```
 
-# Jakarta EE
+## Jakarta EE
 
-`curl -o postgresql-42.7.10.jar https://repo.maven.apache.org/maven2/org/postgresql/postgresql/42.7.10/postgresql-42.7.10.jar`
+```shell
+curl -o postgresql-42.7.10.jar https://repo.maven.apache.org/maven2/org/postgresql/postgresql/42.7.10/postgresql-42.7.10.jar
+```
 
 ```shell
 jboss-cli.bat
 ```
 
-```
+```plain
 # Kapcsolódás
 connect
 
@@ -100,7 +110,9 @@ module add --name=com.postgresql --resources=postgresql-42.7.10.jar --dependenci
 data-source add --name=EmployeeDS --jndi-name=java:/jdbc/EmployeeDS --driver-name=postgresql --connection-url=${env.DB_CONNECTION_URL:jdbc:postgresql://localhost:5432/employees} --user-name=${DB_USERNAME:employees} --password=${DB_PASSWORD:employees}
 ```
 
-# RabbitMQ
+## RabbitMQ
+
+https://www.jtechlog.hu/2020/09/11/rabbitmq.html
 
 ```shell
 docker run -d --hostname my-rabbit --name my-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:4.3.0-management
@@ -110,33 +122,37 @@ http://localhost:15672/
 
 Felhasználónév/jelszó: `guest` / `guest`
 
-# Docker image készítése
+## Docker image készítése
 
 ```shell
 mvn package
 docker build -t employees-app:0.0.1 .
 ```
 
-# Compose
+## Compose
 
 ```shell
 docker compose up -d
 docker compose down
 ```
 
-# Alternatív Docker build
+## Alternatív Docker build
 
 ```shell
 ./mvnw spring-boot:build-image
 ```
 
-# HA
+## HA
 
 ```shell
- docker compose -f docker-compose-ha.yaml  up -d
+docker compose -f docker-compose-ha.yaml  up -d
 ```
 
-# GitLab
+## Branching strategies
+
+https://www.youtube.com/watch?v=U_IFGpJDbeU
+
+## GitLab
 
 ```shell
 git init
@@ -152,7 +168,7 @@ git update-index --chmod=+x mvnw
 
 registry.gitlab.com/vicziani/employees-spring-spa:1.0.0
 
-# Observability
+## Observability
 
 ```shell
 curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
@@ -163,7 +179,7 @@ set OTEL_LOGS_EXPORTER=otlp
 set OTEL_METRIC_EXPORT_INTERVAL=15000
 ```
 
-# Kubernetes
+## Kubernetes
 
 ```shell
 kind create cluster --name employees
